@@ -115,7 +115,7 @@ export const reg_path_check = async (check, navigate) => {
             }
             else {
                 navigate("/" + data[0]['regform_check']);
-                // console.log("hello")
+             //   console.log("hello")
             }
             // console.log("/"+data[0]['regform_check'])
         }
