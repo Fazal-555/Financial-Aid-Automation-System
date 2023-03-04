@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IsInputText } from '../../Validation/InputCheck';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { FastField, ErrorMessage } from 'formik'
@@ -13,7 +13,7 @@ const Tables = (prop) => {
     console.log(evt.which)
     switch (evt.which) {
       case 8:
-        inputvalue = Number(document.getElementsByName(param)[0].value.slice(0,-1));
+        inputvalue = Number(document.getElementsByName(param)[0].value.slice(0, -1));
         break;
       // case 46:
       //   inputvalue = Number(document.getElementsByName(param)[0].value);
@@ -44,9 +44,9 @@ const Tables = (prop) => {
   }
 
   useEffect(() => {
-    const num1=argv.IV[Object.keys(argv.IV)[1]]
-    const num2=argv.IV[Object.keys(argv.IV)[3]]
-    const num3=argv.IV[Object.keys(argv.IV)[5]]
+    const num1 = argv.IV[Object.keys(argv.IV)[1]]
+    const num2 = argv.IV[Object.keys(argv.IV)[3]]
+    const num3 = argv.IV[Object.keys(argv.IV)[5]]
     document.getElementById(argv.totalcheck[0]).innerHTML = num1;
     document.getElementById(argv.totalcheck[1]).innerHTML = num2;
     document.getElementById(argv.totalcheck[2]).innerHTML = num3;
@@ -77,7 +77,7 @@ const Tables = (prop) => {
                     <div className='error_msg'><ErrorMessage name={Object.keys(argv.IV)[1]} /></div>
                   </TableCell>
                   <TableCell className='table_modify'>
-                    <FastField component={(props) => (<input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} />)} id={Object.keys(argv.IV)[0]} name={Object.keys(argv.IV)[0]} />
+                    <FastField component={(props) => (<input type='text' autoComplete="off" maxLength='40' onKeyDown={(event) => IsInputText(event)} {...props.field} />)} id={Object.keys(argv.IV)[0]} name={Object.keys(argv.IV)[0]} />
                     <div className='error_msg'><ErrorMessage name={Object.keys(argv.IV)[0]} /></div></TableCell>
                 </TableRow>
                 <TableRow>
@@ -86,7 +86,7 @@ const Tables = (prop) => {
                     <FastField component={(props) => (<input type='text' autoComplete="off" onKeyDown={(event) => IsInputNumber(event, Object.keys(argv.IV)[3], argv.totalcheck[1])} {...props.field} />)} id={Object.keys(argv.IV)[3]} name={Object.keys(argv.IV)[3]} />
                     <div className='error_msg'><ErrorMessage name={Object.keys(argv.IV)[3]} /></div></TableCell>
                   <TableCell className='table_modify'>
-                    <FastField component={(props) => (<input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} />)} id={Object.keys(argv.IV)[2]} name={Object.keys(argv.IV)[2]} />
+                    <FastField component={(props) => (<input type='text' autoComplete="off" maxLength='40' onKeyDown={(event) => IsInputText(event)} {...props.field} />)} id={Object.keys(argv.IV)[2]} name={Object.keys(argv.IV)[2]} />
                     <div className='error_msg'><ErrorMessage name={Object.keys(argv.IV)[2]} /></div></TableCell>
                 </TableRow>
                 <TableRow >
@@ -95,7 +95,7 @@ const Tables = (prop) => {
                     <FastField component={(props) => (<input type='text' autoComplete="off" onKeyDown={(event) => IsInputNumber(event, Object.keys(argv.IV)[5], argv.totalcheck[2])} {...props.field} />)} id={Object.keys(argv.IV)[5]} name={Object.keys(argv.IV)[5]} />
                     <div className='error_msg'><ErrorMessage name={Object.keys(argv.IV)[5]} /></div></TableCell>
                   <TableCell className='table_modify'>
-                    <FastField component={(props) => (<input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} />)} id={Object.keys(argv.IV)[4]} name={Object.keys(argv.IV)[4]} />
+                    <FastField component={(props) => (<input type='text' autoComplete="off" maxLength='40' onKeyDown={(event) => IsInputText(event)} {...props.field} />)} id={Object.keys(argv.IV)[4]} name={Object.keys(argv.IV)[4]} />
                     <div className='error_msg'><ErrorMessage name={Object.keys(argv.IV)[4]} /></div></TableCell>
                 </TableRow>
                 <TableRow >

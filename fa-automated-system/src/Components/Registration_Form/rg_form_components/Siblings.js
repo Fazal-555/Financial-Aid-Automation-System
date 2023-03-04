@@ -7,6 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import { Formik, Form, FastField, ErrorMessage } from 'formik'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup'
 import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
 
@@ -26,18 +28,30 @@ const Siblings = (props) => {
     };
 
     const onSubmit = (values) => {
-        setData(prevData => [...prevData, {
-            [propdata[0]]: values[propdata[0]],
-            [propdata[1]]: values[propdata[1]],
-            [propdata[2]]: values[propdata[2]],
-            [propdata[3]]: values[propdata[3]],
-            [propdata[4]]: values[propdata[4]],
-            [propdata[5]]: values[propdata[5]],
-            [propdata[6]]: values[propdata[6]]
-        }]);
-        setTotal(prevTotal => prevTotal + 1);
-        setOpen(false);
-        props.data_store(values);
+        const Month = new Date().getMonth() + 1;
+        const Year = new Date().getFullYear();
+        const Day = new Date().getDate();
+        const Dates = values[propdata[1]].split("-");
+        if (Month >= Number(Dates[1]) && Year >= Number(Dates[0]) && Day >= Number(Dates[2])) {
+            console.log(Dates);
+            setData(prevData => [...prevData, {
+                [propdata[0]]: values[propdata[0]],
+                [propdata[1]]: values[propdata[1]],
+                [propdata[2]]: values[propdata[2]],
+                [propdata[3]]: values[propdata[3]],
+                [propdata[4]]: values[propdata[4]],
+                [propdata[5]]: values[propdata[5]],
+                [propdata[6]]: values[propdata[6]]
+            }]);
+            setTotal(prevTotal => prevTotal + 1);
+            setOpen(false);
+            props.data_store(values);
+        }
+        else {
+            toast('Please provide correct date!', {
+                type: "error"
+              });
+        }
     };
 
     function deleteEmp(index) {
@@ -85,7 +99,7 @@ const Siblings = (props) => {
 
                                 <Grid container rowSpacing={2} justifyContent='center'  >
                                     <Grid item xs={12} >
-                                        <FastField component={(props) => (<div><label>Name(Eldest First) :</label> <input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[0]} name={propdata[0]} />
+                                        <FastField component={(props) => (<div><label>Name(Eldest First) :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[0]} name={propdata[0]} />
                                         <div className='error_msg'><ErrorMessage name={propdata[0]} /></div>
                                     </Grid>
                                     <Grid item xs={12} >
@@ -103,7 +117,7 @@ const Siblings = (props) => {
                                     </Grid>
                                     {choice == 0 ?
                                         <Grid item xs={12}>
-                                            <FastField component={(props) => (<div><label>Educational institution and grade/class :</label> <input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[3]} name={propdata[3]} />
+                                            <FastField component={(props) => (<div><label>Educational institution and grade/class :</label> <input type='text' maxLength='40' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[3]} name={propdata[3]} />
                                             <div className='error_msg'><ErrorMessage name={propdata[3]} /></div>
                                         </Grid> :
                                         <Grid item xs={12}>
@@ -117,15 +131,15 @@ const Siblings = (props) => {
                                         </Grid>}
 
                                     <Grid item xs={12}>
-                                        <FastField component={(prop) => (<div><label>{props[Object.keys(props)[1]]} :</label> <input type='text' autoComplete="off" onKeyDown={(event) => input_type[0](event)} {...prop.field} /></div>)} id={propdata[4]} name={propdata[4]} />
+                                        <FastField component={(prop) => (<div><label>{props[Object.keys(props)[1]]} :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => input_type[0](event)} {...prop.field} /></div>)} id={propdata[4]} name={propdata[4]} />
                                         <div className='error_msg'><ErrorMessage name={propdata[4]} /></div>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <FastField component={(prop) => (<div><label>{props[Object.keys(props)[2]]} :</label> <input type='text' autoComplete="off" onKeyDown={(event) => input_type[1](event)} {...prop.field} /></div>)} id={propdata[5]} name={propdata[5]} />
+                                        <FastField component={(prop) => (<div><label>{props[Object.keys(props)[2]]} :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => input_type[1](event)} {...prop.field} /></div>)} id={propdata[5]} name={propdata[5]} />
                                         <div className='error_msg'><ErrorMessage name={propdata[5]} /></div>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <FastField component={(prop) => (<div><label>{props[Object.keys(props)[3]]} :</label> <input type='text' autoComplete="off" onKeyDown={(event) => input_type[2](event)} {...prop.field} /></div>)} id={propdata[6]} name={propdata[6]} />
+                                        <FastField component={(prop) => (<div><label>{props[Object.keys(props)[3]]} :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => input_type[2](event)} {...prop.field} /></div>)} id={propdata[6]} name={propdata[6]} />
                                         <div className='error_msg'><ErrorMessage name={propdata[6]} /></div>
                                     </Grid>
                                 </Grid>

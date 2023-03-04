@@ -23,8 +23,8 @@ const Registration_form2 = () => {
     const check = window.location.pathname;
 
     useEffect(() => {
-        reg_path_check(check ,navigate);
-        stu_info(setStu_data,Setparsecheck);
+        reg_path_check(check, navigate);
+        stu_info(setStu_data, Setparsecheck);
     }, []);
 
     const initialValues1 = {
@@ -89,12 +89,12 @@ const Registration_form2 = () => {
         const ans = await res.json();
         if (ans[0]['success'] == 'false') {
             toast('There is something error in the provided data!', {
-                type:"error"
+                type: "error"
             });
         }
         else {
             toast('Data Submitted Successfully!', {
-                type:"success",
+                type: "success",
             });
             navigate('Registration_Form3');
         }
@@ -129,7 +129,7 @@ const Registration_form2 = () => {
         Income_3_4: Yup.string(),
     })
 
-    
+
 
     //validationSchema={validationSchema}
     return (parsecheck ?

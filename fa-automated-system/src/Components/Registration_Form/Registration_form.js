@@ -65,7 +65,7 @@ const Registration_form = () => {
     sib_info['sibling_not_working'] = JSON.stringify(sib_info['sibling_not_working']);
     sib_info['sibling_working'] = JSON.stringify(sib_info['sibling_working']);
     values = { arn: arn_num, path: '"Registration_Form/RegForm/Registration_Form2"', ...values, ...emp_data, ...sib_info };
-
+values['stu_degree']=values['stu_degree'].toUpperCase();
     const res = await fetch('/reg_data', {
       method: 'POST',
       headers: {
@@ -87,8 +87,8 @@ const Registration_form = () => {
     console.log("hello")
     navigate('Registration_Form2');
     }
-    console.log(ans);
-    console.log(values)
+    // console.log(ans);
+    // console.log(values)
 
   };
 
@@ -137,7 +137,7 @@ const Registration_form = () => {
                   <Typography variant='h5' p={2} pb={0} pt={3} className='card_title'>Personal Details<span className='dot'>.</span></Typography>
                   <Grid container rowSpacing={2} columnSpacing={{ md: 3 }} p={2} pt={1} textAlign='start'>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Name :</label> <input type='text' onKeyDown={(event) => IsInputText(event)} autoComplete="off" {...props.field} /></div>)} id='stu_name' name='stu_name' />
+                      <FastField component={(props) => (<div><label>Name :</label> <input type='text' maxLength='30' onKeyDown={(event) => IsInputText(event)} autoComplete="off" {...props.field} /></div>)} id='stu_name' name='stu_name' />
                       <div className='error_msg'><ErrorMessage name='stu_name' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
@@ -145,7 +145,7 @@ const Registration_form = () => {
                       <div className='error_msg'><ErrorMessage name='stu_cnic' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Degree :</label> <input type='text' onKeyDown={(event) => IsInputText(event)} autoComplete="off" minLength='4' maxLength='4' {...props.field} /></div>)} id='stu_degree' name='stu_degree' />
+                      <FastField component={(props) => (<div><label>Degree :</label> <input type='text' onKeyDown={(event) => IsInputText(event)} autoComplete="off" minLength='3' maxLength='4' {...props.field} /></div>)} id='stu_degree' name='stu_degree' />
                       <div className='error_msg'><ErrorMessage name='stu_degree' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
@@ -157,7 +157,7 @@ const Registration_form = () => {
                       <div className='error_msg'><ErrorMessage name='stu_cell_number' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Email Address :</label><input type='email' placeholder='abc@gmail.com' autoComplete="off" {...props.field} /></div>)} id='stu_email' name='stu_email' />
+                      <FastField component={(props) => (<div><label>Email Address :</label><input type='email' maxLength='40' placeholder='abc@gmail.com' autoComplete="off" {...props.field} /></div>)} id='stu_email' name='stu_email' />
                       <div className='error_msg'><ErrorMessage name='stu_email' /></div>
                     </Grid>
                   </Grid>
@@ -177,7 +177,7 @@ const Registration_form = () => {
                       <div className='error_msg'><ErrorMessage name='fath_relation' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Name :</label> <input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id='fath_name' name='fath_name' />
+                      <FastField component={(props) => (<div><label>Name :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id='fath_name' name='fath_name' />
                       <div className='error_msg'><ErrorMessage name='fath_name' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
@@ -197,11 +197,11 @@ const Registration_form = () => {
                       <div className='error_msg'><ErrorMessage name='fath_cell_number' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Email Address :</label> <input type='email' autoComplete="off" placeholder='abc@gmail.com' {...props.field} /></div>)} id='fath_email' name='fath_email' />
+                      <FastField component={(props) => (<div><label>Email Address :</label> <input type='email' maxLength='40' autoComplete="off" placeholder='abc@gmail.com' {...props.field} /></div>)} id='fath_email' name='fath_email' />
                       <div className='error_msg'><ErrorMessage name='fath_email' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Profession :</label> <input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id='fath_profession' name='fath_profession' />
+                      <FastField component={(props) => (<div><label>Profession :</label> <input type='text' maxLength='35' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id='fath_profession' name='fath_profession' />
                       <div className='error_msg'><ErrorMessage name='fath_profession' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
@@ -233,7 +233,7 @@ const Registration_form = () => {
                   <Typography variant='h5' p={2} pb={0} className='card_title'>Mother Details<span className='dot'>.</span></Typography>
                   <Grid container rowSpacing={2} columnSpacing={{ md: 3 }} p={2} pt={1} textAlign='start'>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Name :</label> <input type='text' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id='moth_name' name='moth_name' />
+                      <FastField component={(props) => (<div><label>Name :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id='moth_name' name='moth_name' />
                       <div className='error_msg'><ErrorMessage name='moth_name' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
@@ -253,7 +253,7 @@ const Registration_form = () => {
                       <div className='error_msg'><ErrorMessage name='moth_cell_number' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>
-                      <FastField component={(props) => (<div><label>Email Address :</label> <input type='email' autoComplete="off" placeholder='abc@gmail.com' {...props.field} /></div>)} id='moth_email' name='moth_email' />
+                      <FastField component={(props) => (<div><label>Email Address :</label> <input type='email' maxLength='40' autoComplete="off" placeholder='abc@gmail.com' {...props.field} /></div>)} id='moth_email' name='moth_email' />
                       <div className='error_msg'><ErrorMessage name='moth_email' /></div>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4} xl={3}>

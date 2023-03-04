@@ -7,11 +7,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import { Formik, Form, FastField, ErrorMessage } from 'formik'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup'
 import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const Popup = (props) => {
-  
+
   const [open, setOpen] = React.useState(false);
   const [total, setTotal] = React.useState(props.mtft_data.length);
   const [data, setData] = React.useState(props.mtft_data);
@@ -27,16 +29,34 @@ const Popup = (props) => {
 
 
   const onSubmit = (values) => {
-    setData(prevData => [...prevData, {
-      [propdata[0]]: values[propdata[0]],
-      [propdata[1]]: values[propdata[1]],
-      [propdata[2]]: values[propdata[2]],
-      [propdata[3]]: values[propdata[3]],
-      [propdata[4]]: values[propdata[4]]
-    }]);
-    setTotal(prevTotal => prevTotal + 1);
-    setOpen(false);
-    props.emp_data(values)
+    const Month = new Date().getMonth();
+    const Year = new Date().getFullYear();
+    const Dates = values[propdata[0]].split("-");
+    const Dates1 = values[propdata[1]].split("-");
+    if (Month+1 >= Number(Dates[1]) && Year >= Number(Dates[0]) && Month+1 >= Number(Dates1[1]) && Year >= Number(Dates1[0])) {
+      if (values[propdata[0]] <= values[propdata[1]]) {
+        setData(prevData => [...prevData, {
+          [propdata[0]]: values[propdata[0]],
+          [propdata[1]]: values[propdata[1]],
+          [propdata[2]]: values[propdata[2]],
+          [propdata[3]]: values[propdata[3]],
+          [propdata[4]]: values[propdata[4]]
+        }]);
+        setTotal(prevTotal => prevTotal + 1);
+        setOpen(false);
+        props.emp_data(values)
+      }
+      else {
+        toast('Please provide correct date!', {
+          type: "error"
+        });
+      }
+    }
+    else {
+      toast('Please provide correct date!', {
+        type: "error"
+      });
+    }
   };
 
   function deleteEmp(index) {
@@ -89,15 +109,15 @@ const Popup = (props) => {
                     <div className='error_msg'><ErrorMessage name={propdata[1]} /></div>
                   </Grid>
                   <Grid item xs={12}>
-                    <FastField component={(props) => (<div><label>Designation :</label> <input type='text' autoComplete="off"  onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[2]} name={propdata[2]} />
+                    <FastField component={(props) => (<div><label>Designation :</label> <input type='text' maxLength='30' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[2]} name={propdata[2]} />
                     <div className='error_msg'><ErrorMessage name={propdata[2]} /></div>
                   </Grid>
                   <Grid item xs={12}>
-                    <FastField component={(props) => (<div><label>Organization :</label> <input type='text' autoComplete="off"  onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[3]} name={propdata[3]} />
+                    <FastField component={(props) => (<div><label>Organization :</label> <input type='text' maxLength='25' autoComplete="off" onKeyDown={(event) => IsInputText(event)} {...props.field} /></div>)} id={propdata[3]} name={propdata[3]} />
                     <div className='error_msg'><ErrorMessage name={propdata[3]} /></div>
                   </Grid>
                   <Grid item xs={12}>
-                    <FastField component={(props) => (<div><label>Monthly Salary :</label> <input type='text' autoComplete="off"  onKeyDown={(event) => IsInputNumber(event)} {...props.field} /></div>)} id={propdata[4]} name={propdata[4]} />
+                    <FastField component={(props) => (<div><label>Monthly Salary :</label> <input type='text' maxLength='20' autoComplete="off" onKeyDown={(event) => IsInputNumber(event)} {...props.field} /></div>)} id={propdata[4]} name={propdata[4]} />
                     <div className='error_msg'><ErrorMessage name={propdata[4]} /></div>
                   </Grid>
                 </Grid>
