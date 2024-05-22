@@ -4,6 +4,8 @@ import { Typography, Grid, Stack, Button } from '@mui/material';
 import { Formik, Form, FastField, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+
 const Studentlogin = ({ check, changeview }) => {
     const navigate = useNavigate();
     const initialValues = {
@@ -12,6 +14,7 @@ const Studentlogin = ({ check, changeview }) => {
     };
 
     const onSubmit = async (values) => {
+      //  console.log("jao")
         if(values['arn_num']==''|| values['password']=='' )
         toast('Please provide complete information!', {
             type:"info"
@@ -26,24 +29,29 @@ const Studentlogin = ({ check, changeview }) => {
             }
         })
         const ans = await res.json();
-        if (ans[0]['arn_num'] === values['arn_num'] && ans[0]['password'] === values['password']) {
+        console.log(ans)
+        //console.log(a)
+        if (ans['result'][0]['arn_num'] === values['arn_num'] && ans['result'][0]['password'] === values['password']) {
+            console.log("rtr")
             toast('Login Successful!', {
                 type:"success",
             });
+            navigate('/Home')
             sessionStorage.setItem("value", 0);
             sessionStorage.setItem("display", 9);
             sessionStorage.setItem("ARN",ans[0]['arn_num']);
             check(sessionStorage.getItem("value"));
             changeview(sessionStorage.getItem("display"));
+            //localStorage.setItem("token",ans.token)
             navigate('/Home')
-        }
+       }
         else {
             toast('Wrong Data provided Please Try Again!', {
                 type:"error"
             });
         }
     }
-    }
+   }
 
 
     return (

@@ -1,11 +1,16 @@
 const express = require('express');
 const conn = require('./config');
 const app = express();
+const jwt = require('jsonwebtoken');
+const middleware = require('./middleware')
 
-app.post('/signin', (req, res) => {
+// ---- LOGIN ----
+
+app.post('/signin',async (req, res) => {
     // res.send(req.rawHeaders[31]);
     const recvdata = JSON.parse(req.rawHeaders[31]);
-    conn.query(`select arn_num,password from studentdata where arn_num = ${recvdata['arn_num']} and password = '${recvdata['password']}'`, (err, result) => {
+    console.log("hello")
+    conn.query(`select arn_num,password from studentdata where arn_num = ${recvdata['arn_num']} and password = '${recvdata['password']}'`,async (err, result) => {
         if (err) {
             res.send(err);
         }
@@ -14,7 +19,16 @@ app.post('/signin', (req, res) => {
                 res.send(JSON.stringify([{ arn_num: 'false', password: 'false' }]))
             }
             else {
-                res.send(result);
+                const token = await jwt.sign({
+                    arn_num:recvdata['arn_num'],
+                    password:recvdata['password']
+                },"iamperformingjwtauthenticationonourfaautomationsystem",{
+                    expiresIn:"10 minutes"
+                   });
+                
+                    console.log(token);
+
+                res.send({result,token});
             }
 
         }
@@ -68,6 +82,8 @@ app.post('/Profile_show', (req, res) => {
         }
     })
 })
+
+// ----- REGISTER------
 
 app.post('/reg_data', (req, res) => {
     const recvdata = JSON.parse(req.rawHeaders[31]);
@@ -124,18 +140,24 @@ app.post('/send1', (req, res) => {
     })
 })
 
+
+// ----- Signning up//
+
 app.post('/signup', (req, res) => {
     const recvdata = JSON.parse(req.rawHeaders[31]);
     conn.query(`select arn_num from studentdata where arn_num = ${recvdata['arn_num']}`, (err, result) => {
         if (err) {
             res.send(err);
         }
+
+       
         else {
             if (JSON.stringify(result) == '[]') {
                 conn.query("INSERT INTO studentdata set ?", recvdata, (err, result) => {
                     if (err) {
                         res.send(err);
                     }
+                    
                     else {
                         conn.query("INSERT INTO `registration_form_details`(`arn`, `fath_cell_number`, `fath_cnic`, `fath_email`, `fath_employment`, `fath_employment_data`, `fath_name`, `fath_postal_address`, `fath_profession`, `fath_relation`, `fath_telephone`, `moth_cell_number`, `moth_cnic`, `moth_email`, `moth_employment`, `moth_employment_data`, `moth_name`, `moth_postal_address`, `moth_profession`, `moth_telephone`, `sibling_not_working`, `sibling_working`, `stu_cell_number`, `stu_cnic`, `stu_degree`, `stu_email`, `stu_name`, `stu_postal_address`, `Income_1_1`, `Income_1_2`, `Income_1_3`, `Income_1_4`, `Income_2_1`, `Income_2_2`, `Income_2_3`, `Income_2_4`, `Income_3_1`, `Income_3_2`, `Income_3_3`, `Income_3_4`, `Title_1_1`, `Title_1_2`, `Title_1_3`, `Title_1_4`, `Title_2_1`, `Title_2_2`, `Title_2_3`, `Title_2_4`, `Title_3_1`, `Title_3_2`, `Title_3_3`, `Title_3_4`, `assets`, `investments`, `properties`, `vechiles`, `electricity_expenses`, `gas_expenses`, `telephone_expenses`, `check1`, `reg_end_check`) VALUES (" + recvdata['arn_num'] + ",'','','','','[]','','','','','','','','','','[]','','','','','[]','[]','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','[]','[]','[]','[]','[]','[]','[]','1','1')", (err1, data1) => {
                             if (err1) {
@@ -346,6 +368,22 @@ app.post('/Profile_delete', (req, res) => {
     })
 }
 );
+
+
+// 
+
+// const createToken = async() => {
+
+
+//     const userver = await jwt.verify(token, "iamperformingjwtauthenticationonourfaautomationsystem");
+//     console.log(userver);
+
+// }
+
+// // function call, where i want to generate that token
+// createToken();
+
+
 
 app.listen(4000, () => {
     console.log("Server is listening at port 4000");
